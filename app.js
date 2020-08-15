@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('config');
-const db = require('./config/database');
+const db = require('./models');
 
 const app = express();
 
@@ -11,17 +11,11 @@ app.use('/api/link', require('./routes/link.routes'));
 
 const PORT = config.get('port') || 5000;
 
-async function start() {
-    try {
-        await db.authenticate()
-            .then(() => console.log('Db connected'))
-            .catch(err => console.log('Error: ' + err));
+db.sequelize.sync()
+    .then(() => {
         app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
-    } catch (e) {
-        console.log('Server error', e.message);
+    })
+    .catch(e => {
+        console.log(e);
         process.exit(1);
-    }
-}
-
-start();
-
+    });
