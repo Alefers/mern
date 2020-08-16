@@ -1,8 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('user', {
         id: {
-            type: DataTypes.UUID,
-            primaryKey: true
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
         },
         email: {
             type: DataTypes.STRING,
@@ -15,16 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             required: true,
-            len: [6, 25],
+            len: [60],
             allowNull: false
-        },
-        created_at: {
-            type: DataTypes.DATE
-        },
-        updated_at: {
-            type: DataTypes.DATE
         }
     }, {
-        underscored: true,
+        underscored: true
     });
 };

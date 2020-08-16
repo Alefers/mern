@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
 const {check, validationResult} = require('express-validator');
-const User = require('../models/User');
+const db = require('../models');
 const router = Router();
 
 router.post(
@@ -25,7 +25,7 @@ router.post(
 
             const {email, password} = req.body;
 
-            const candidate = await User.findOne({
+            const candidate = await db.user.findOne({
                 where: { email }
             });
 
@@ -35,7 +35,7 @@ router.post(
 
             const hashedPassword = await bcrypt.hash(password, 12);
 
-            User.create({
+            const user = await db.user.create({
                 email,
                 password: hashedPassword
             });
@@ -67,7 +67,7 @@ router.post(
 
             const {email, password} = req.body;
 
-            const user = await User.findOne({
+            const user = await db.user.findOne({
                 where: {email}
             });
 

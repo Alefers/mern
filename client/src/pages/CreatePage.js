@@ -1,8 +1,10 @@
 import React, {useState, useContext} from "react";
+import {useHistory} from 'react-router-dom';
 import {useHttp} from "../hooks/http.hook";
 import {AuthContext} from "../context/auth.context";
 
 export const CreatePage = () => {
+    const history = useHistory();
     const auth = useContext(AuthContext);
     const {request} = useHttp();
     const [link, setLink] = useState('');
@@ -15,7 +17,7 @@ export const CreatePage = () => {
                 }, {
                     Authorization: `Bearer ${auth.token}`
                 });
-                console.log(data);
+                history.push(`/detail/${data.link.id}`);
             } catch (e) {
 
             }
@@ -50,7 +52,7 @@ export const CreatePage = () => {
                                     type="button"
                                     className="btn btn-outline-primary w-100"
                                 >
-                                    Register
+                                    Create
                                 </button>
                             </div>
                         </div>

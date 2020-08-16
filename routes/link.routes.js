@@ -1,22 +1,19 @@
 const {Router} = require('express');
 const config = require('config');
 const shortid = require('shortid');
-const Link = require('../models/Link');
-const authMiddlewhare = require('../middleware/auth.middleware');
+const db = require('../models');
 
 const router = Router();
 
-router.post('/generate', authMiddlewhare, async (req, res) => {
+router.post('/generate', async (req, res) => {
     try {
         const baseUrl = config.get('baseUrl');
         const {linkFrom} = req.body;
 
         const code = shortid.generate();
 
-        const existing = await Link.findOne({
-            where: {
-                linkFrom: linkFrom
-            }
+        const existing = await db.link.findOne({
+            where: { linkFrom }
         });
 
         if (existing) {
@@ -25,7 +22,7 @@ router.post('/generate', authMiddlewhare, async (req, res) => {
 
         const linkTo = baseUrl + '/t/' + code;
 
-        const link = await Link.create({
+        const link = await db.link.create({
             linkFrom,
             linkTo,
             code,
@@ -33,14 +30,15 @@ router.post('/generate', authMiddlewhare, async (req, res) => {
         });
 
         res.json({link});
+
     } catch (e) {
         res.status(500).json({ message: 'Something goes wrong ' + e.message});
     }
 });
 
-router.get('/', authMiddlewhare, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const links = await Link.findAll({
+        const links = await db.link.findAll({
             where: {
                 userId: req.user.userId
             }
@@ -51,9 +49,9 @@ router.get('/', authMiddlewhare, async (req, res) => {
     }
 });
 
-router.get('/:id', authMiddlewhare, async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        const link = await Link.findByPk(req.params.id);
+        const link = await db.link.findByPk(req.params.id);
         res.json(link);
     } catch (e) {
         res.status(500).json({ message: 'Something goes wrong' });

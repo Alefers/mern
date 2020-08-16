@@ -5,16 +5,18 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        link_from: {
+        linkFrom: {
             type: DataTypes.STRING,
             required: true,
-            allowNull: false
+            allowNull: false,
+            field: 'link_from'
         },
-        link_to: {
+        linkTo: {
             type: DataTypes.STRING,
             required: true,
             unique: true,
-            allowNull: false
+            allowNull: false,
+            field: 'link_to'
         },
         code: {
             type: DataTypes.STRING,
@@ -22,18 +24,16 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
             allowNull: false
         },
-        created_at: {
-            type: DataTypes.DATE
-        },
         clicks: {
             type: DataTypes.INTEGER,
             default: 0
         },
-        user_id: {
+        userId: {
             //fk in users
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             required: true,
-            allowNull: false
+            allowNull: false,
+            field: 'user_id'
         }
     }, {
         underscored: true
