@@ -1,8 +1,6 @@
 import React from 'react';
 
 export const LinkCard = ({ link }) => {
-
-    console.log(link);
     return (
         <>
             <h2>Link</h2>
@@ -10,6 +8,7 @@ export const LinkCard = ({ link }) => {
             <ul>
                 <li>Generated link: {link.linkTo}</li>
                 <li>Original link: {link.linkFrom}</li>
+                <li>Clicks: {link.clicks}</li>
             </ul>
         </>
     );

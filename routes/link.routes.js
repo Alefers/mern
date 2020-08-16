@@ -52,6 +52,10 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const link = await db.link.findByPk(req.params.id);
+        const updatedLink = await db.link.update(
+            { clicks: link.clicks + 1 },
+            { where: { id: link.id }}
+        );
         res.json(link);
     } catch (e) {
         res.status(500).json({ message: 'Something goes wrong' });

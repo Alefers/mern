@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         clicks: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             default: 0
         },
         userId: {
